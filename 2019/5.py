@@ -1,5 +1,3 @@
-import math
-
 N, K = map(int, input().split())
 permutation = (N - K + 1) * (N - K + 2) / 2
 start = K - 1
@@ -12,7 +10,8 @@ ans = current_max
 initial_list = list(triangle_list)
 initial_max = int(current_max)
 
-def next_items(i, j, lisst):
+
+def next_items(i, j, lists):
     back = []
     front = []
     try:
@@ -21,32 +20,33 @@ def next_items(i, j, lisst):
             front.append(tri[i - loop][j + structure[loop]])
             ba = tri[i - loop][j]
             back.append(ba)
-            lisst.remove(ba)
-        lisst += front
+            lists.remove(ba)
+        lists += front
     except IndexError as e:
-        lisst = initial_list
+        lists = initial_list
         maxmax = initial_max
         for loop in range(K):
             back.append(tri[i - loop][structure[loop] - 1])
             ba = tri[i - loop][structure[loop] - 1]
-            lisst.remove(ba)
+            lists.remove(ba)
         front = tri[i + 1][:K]
-        lisst += front
+        lists += front
 
     back_max, front_max = max(back), max(front)
     if back_max > front_max:
         if maxmax > back_max:
-            return maxmax, lisst
+            return maxmax, lists
         else:
             if maxmax <= front_max:
-                return front_max, lisst
+                return front_max, lists
             else:
-                return max(triangle_list), lisst
+                return max(triangle_list), lists
     elif back_max <= front_max:
         if maxmax >= front_max:
-            return maxmax, lisst
+            return maxmax, lists
         else:
-            return front_max, lisst
+            return front_max, lists
+
 
 for i in range(start, N):
     for j in range(i - start + 1):
